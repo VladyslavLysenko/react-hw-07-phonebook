@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from './redux/contactSlice';
+import { useDispatch,useSelector } from 'react-redux';
+// import { addContact } from './redux/contactSlice';
 import { getContacts } from 'components/redux/contactSlice';
+import { addContact } from 'redux/operations';
 
 export const Form = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export const Form = () => {
     evt.preventDefault();
     const form = evt.target;
     const saved = saveContact({ name: contactName, number: number });
+
     if (saved) {
       form.reset();
     }

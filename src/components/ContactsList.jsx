@@ -1,10 +1,9 @@
 import { ContactsItem } from './ContactsItem';
 import { useSelector } from 'react-redux';
-import { getFilter } from 'components/redux/filterSlice';
-import { getContacts } from 'components/redux/contactSlice';
+import { getContacts, getFilter } from './redux/selectors';
 
 export const ContactsList = () => {
-  let { contacts } = useSelector(getContacts);
+  let contacts = useSelector(getContacts);
   let filterValue = useSelector(getFilter);
 
   if (filterValue) {

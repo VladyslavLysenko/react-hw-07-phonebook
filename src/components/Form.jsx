@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-// import { addContact } from './redux/contactSlice';
-import { getContacts } from 'components/redux/contactSlice';
-import { addContact } from 'redux/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from './redux/operations';
+import { getContacts } from './redux/selectors';
 
 export const Form = () => {
   const dispatch = useDispatch();
   const [contactName, setContactName] = useState('');
   const [number, setNumber] = useState('');
-  let { contacts } = useSelector(getContacts);
+  let contacts = useSelector(getContacts);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -30,7 +29,7 @@ export const Form = () => {
   const handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.target;
-    const saved = saveContact({ name: contactName, number: number });
+    const saved = saveContact({ contactName, number });
 
     if (saved) {
       form.reset();
@@ -38,16 +37,17 @@ export const Form = () => {
   };
 
   const saveContact = contact => {
+    console.log('contact', contact);
     const checkName = contacts
 
       .map(item => item.name.toLowerCase())
-      .some(item => item === contact.name.toLowerCase());
+      .some(item => item === contactName.toLowerCase());
 
     if (checkName) {
-      window.alert(`This contact ${contact.name} already excist `);
+      window.alert(`This contact ${contactName} already excist `);
       return false;
     } else {
-      dispatch(addContact(contact.name, contact.number));
+      dispatch(addContact({ name:contactName, phone:number }));
       return true;
     }
   };
